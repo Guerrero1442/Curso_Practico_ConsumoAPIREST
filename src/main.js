@@ -95,3 +95,15 @@ export async function getMoviesByCategory(id) {
     //* Recorro cada pelicula de los datos recogidos
     createMovies(movies, genericSection);
 }
+export async function getMoviesBySearch(query) {
+    //* Traigo la informacion de la url
+    const { data } = await api("search/movie", {
+        params: {
+            query: query,
+        },
+    });
+    const movies = data.results;
+
+    //* Recorro cada pelicula de los datos recogidos
+    createMovies(movies, genericSection);
+}
