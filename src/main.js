@@ -15,11 +15,8 @@ export async function getTrendingMoviesPreview() {
     const movies = data.results;
 
     //* Recorro cada pelicula de los datos recogidos
+    trendingMoviesPreviewList.innerHTML = "";
     movies.forEach((movie) => {
-        const trendingMoviesPreviewList = document.querySelector(
-            "#trendingPreview .trendingPreview-movieList"
-        );
-
         // TODO: agrego los contenidos a mi html creando elementos
         // 	<div class="movie-container">
         // 	<img src="https://www.themoviedb.org/t/p/w220_and_h330_face/b7EIwmXtQBEyrLHcUEyuJxPoARk.jpg"
@@ -43,11 +40,8 @@ export async function getCategoriesMoviesPreview() {
     const categories = data.genres;
 
     //* Recorro cada pelicula de los datos recogidos
+    categoriesPreviewList.innerHTML = "";
     categories.forEach((category) => {
-        const categoriesPreviewList = document.querySelector(
-            "#categoriesPreview .categoriesPreview-list"
-        );
-
         // TODO: agrego los contenidos a mi html creando elementos
         // <section id="categoriesPreview" class="categoriesPreview-container">
         // 	<h2 class="categoriesPreview-title">Categorías</h2>
