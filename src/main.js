@@ -9,14 +9,14 @@ const api = axios.create({
     },
 });
 // Traer la tendencia de peliculas de la ultima semana
-async function getTrendingMoviesPreview() {
+export async function getTrendingMoviesPreview() {
     //* Traigo la informacion de la url
     const { data } = await api("trending/movie/day");
     const movies = data.results;
 
     //* Recorro cada pelicula de los datos recogidos
     movies.forEach((movie) => {
-        const trendingPreviewMoviesContainer = document.querySelector(
+        const trendingMoviesPreviewList = document.querySelector(
             "#trendingPreview .trendingPreview-movieList"
         );
 
@@ -33,19 +33,18 @@ async function getTrendingMoviesPreview() {
         movieImg.setAttribute("alt", movie.title);
         movieImg.setAttribute("src", "https://image.tmdb.org/t/p/w300/" + movie.poster_path);
         movieContainer.appendChild(movieImg);
-        trendingPreviewMoviesContainer.appendChild(movieContainer);
+        trendingMoviesPreviewList.appendChild(movieContainer);
     });
 }
-getTrendingMoviesPreview();
 // Traer todos los generos de las peliculas
-async function getCategoriesMoviesPreview() {
+export async function getCategoriesMoviesPreview() {
     //* Traigo la informacion de la url
     const { data } = await api("genre/movie/list");
     const categories = data.genres;
 
     //* Recorro cada pelicula de los datos recogidos
     categories.forEach((category) => {
-        const PreviewCategoriesContainer = document.querySelector(
+        const categoriesPreviewList = document.querySelector(
             "#categoriesPreview .categoriesPreview-list"
         );
 
@@ -68,7 +67,6 @@ async function getCategoriesMoviesPreview() {
         const categoryTitleText = document.createTextNode(category.name);
         categoryTitle.appendChild(categoryTitleText);
         categoryContainer.appendChild(categoryTitle);
-        PreviewCategoriesContainer.appendChild(categoryContainer);
+        categoriesPreviewList.appendChild(categoryContainer);
     });
 }
-getCategoriesMoviesPreview();
