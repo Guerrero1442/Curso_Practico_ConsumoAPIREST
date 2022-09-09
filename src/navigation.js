@@ -3,6 +3,7 @@ import {
     getTrendingMoviesPreview,
     getMoviesByCategory,
     getMoviesBySearch,
+    getCompleteTrendingMovies,
 } from "./main.js";
 
 searchFormBtn.addEventListener("click", () => {
@@ -127,4 +128,8 @@ function trendsPage() {
     categoriesPreviewSection.classList.add("inactive");
     genericSection.classList.remove("inactive");
     movieDetailSection.classList.add("inactive");
+
+    headerCategoryTitle.innerHTML = "Trending movies";
+
+    getCompleteTrendingMovies();
 }

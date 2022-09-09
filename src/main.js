@@ -107,3 +107,12 @@ export async function getMoviesBySearch(query) {
     //* Recorro cada pelicula de los datos recogidos
     createMovies(movies, genericSection);
 }
+
+export async function getCompleteTrendingMovies() {
+    //* Traigo la informacion de la url
+    const { data } = await api("trending/movie/day");
+    const movies = data.results;
+
+    //* Recorro cada pelicula de los datos recogidos
+    createMovies(movies, genericSection);
+}
