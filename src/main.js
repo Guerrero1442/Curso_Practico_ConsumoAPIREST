@@ -8,14 +8,12 @@ const api = axios.create({
         api_key: API_KEY,
     },
 });
-// Traer la tendencia de peliculas de la ultima semana
-export async function getTrendingMoviesPreview() {
-    //* Traigo la informacion de la url
-    const { data } = await api("trending/movie/day");
-    const movies = data.results;
 
-    //* Recorro cada pelicula de los datos recogidos
-    trendingMoviesPreviewList.innerHTML = "";
+// Utils
+
+function createMovies(movies, container) {
+    container.innerHTML = "";
+
     movies.forEach((movie) => {
         // TODO: agrego los contenidos a mi html creando elementos
         // 	<div class="movie-container">
@@ -30,17 +28,12 @@ export async function getTrendingMoviesPreview() {
         movieImg.setAttribute("alt", movie.title);
         movieImg.setAttribute("src", "https://image.tmdb.org/t/p/w300/" + movie.poster_path);
         movieContainer.appendChild(movieImg);
-        trendingMoviesPreviewList.appendChild(movieContainer);
+        container.appendChild(movieContainer);
     });
 }
-// Traer todos los generos de las peliculas
-export async function getCategoriesMoviesPreview() {
-    //* Traigo la informacion de la url
-    const { data } = await api("genre/movie/list");
-    const categories = data.genres;
 
-    //* Recorro cada pelicula de los datos recogidos
-    categoriesPreviewList.innerHTML = "";
+function createCategories(categories, container) {
+    container.innerHTML = "";
     categories.forEach((category) => {
         // TODO: agrego los contenidos a mi html creando elementos
         // <section id="categoriesPreview" class="categoriesPreview-container">
@@ -58,9 +51,47 @@ export async function getCategoriesMoviesPreview() {
         const categoryTitle = document.createElement("h3");
         categoryTitle.classList.add("category-title");
         categoryTitle.setAttribute("id", "id" + category.id);
+        // ? cada que se le de click a una categoria nos cambia el hash
+        categoryTitle.addEventListener("click", () => {
+            location.hash = "#category=" + category.id + "-" + category.name;
+        });
         const categoryTitleText = document.createTextNode(category.name);
         categoryTitle.appendChild(categoryTitleText);
         categoryContainer.appendChild(categoryTitle);
-        categoriesPreviewList.appendChild(categoryContainer);
+        container.appendChild(categoryContainer);
     });
+}
+
+//Llamados a la API
+
+// Traer la tendencia de peliculas de la ultima semana
+export async function getTrendingMoviesPreview() {
+    //* Traigo la informacion de la url
+    const { data } = await api("trending/movie/day");
+    const movies = data.results;
+
+    //* Recorro cada pelicula de los datos recogidos
+    createMovies(movies, trendingMoviesPreviewList);
+}
+// Traer todos los generos de las peliculas
+export async function getCategoriesMoviesPreview() {
+    //* Traigo la informacion de la url
+    const { data } = await api("genre/movie/list");
+    const categories = data.genres;
+
+    //* Recorro cada pelicula de los datos recogidos
+    createCategories(categories, categoriesPreviewList);
+}
+
+export async function getMoviesByCategory(id) {
+    //* Traigo la informacion de la url
+    const { data } = await api("discover/movie", {
+        params: {
+            with_genres: id,
+        },
+    });
+    const movies = data.results;
+
+    //* Recorro cada pelicula de los datos recogidos
+    createMovies(movies, genericSection);
 }

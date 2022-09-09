@@ -1,4 +1,8 @@
-import { getCategoriesMoviesPreview, getTrendingMoviesPreview } from "./main.js";
+import {
+    getCategoriesMoviesPreview,
+    getTrendingMoviesPreview,
+    getMoviesByCategory,
+} from "./main.js";
 
 searchFormBtn.addEventListener("click", () => {
     location.hash = "#search=";
@@ -29,7 +33,8 @@ function navigator() {
     } else {
         homePage();
     }
-    location.hash;
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
 }
 
 function homePage() {
@@ -64,6 +69,14 @@ function categoriesPage() {
     categoriesPreviewSection.classList.add("inactive");
     genericSection.classList.remove("inactive");
     movieDetailSection.classList.add("inactive");
+
+    const [_, categoryData] = location.hash.split("="); //? => ['#category','id-name']
+    const [categoryId, categoryName] = categoryData.split("-"); //? => ['id', 'name']
+
+    //? Las categorias que tienen un espacio tiene %20 para quitarlo se utiliza el replace
+    headerCategoryTitle.innerHTML = categoryName.replace("%20", " ");
+
+    getMoviesByCategory(categoryId);
 }
 function moviePage() {
     console.log("Movie!!");
