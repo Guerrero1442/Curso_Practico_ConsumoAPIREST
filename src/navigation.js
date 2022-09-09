@@ -4,6 +4,7 @@ import {
     getMoviesByCategory,
     getMoviesBySearch,
     getCompleteTrendingMovies,
+    getMovieById,
 } from "./main.js";
 
 searchFormBtn.addEventListener("click", () => {
@@ -95,6 +96,10 @@ function moviePage() {
     categoriesPreviewSection.classList.add("inactive");
     genericSection.classList.add("inactive");
     movieDetailSection.classList.remove("inactive");
+
+    const [_, movieId] = location.hash.split("="); //? => ['#search','movieId']
+
+    getMovieById(movieId);
 }
 function searchPage() {
     console.log("Search!!");
